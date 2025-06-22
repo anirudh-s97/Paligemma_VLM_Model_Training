@@ -24,7 +24,7 @@ python -c "import torch; print(f'GPU count: {torch.cuda.device_count()}')"
 wget https://ai.google.com/research/ConceptualCaptions/download -O conceptual_captions.tsv
 
 # Prepare the dataset (downloads images and creates JSONL)
-python dataset_preparation.py conceptual_captions \
+python dataset.py conceptual_captions \
     --csv_path=conceptual_captions.tsv \
     --output_dir=./data/conceptual_captions \
     --output_jsonl=./data/conceptual_captions.jsonl \
@@ -43,7 +43,7 @@ unzip train2017.zip -d ./data/coco/
 unzip annotations_trainval2017.zip -d ./data/coco/
 
 # Prepare dataset
-python dataset_preparation.py coco_captions \
+python dataset.py coco_captions \
     --images_dir=./data/coco/train2017 \
     --annotations_file=./data/coco/annotations/captions_train2017.json \
     --output_jsonl=./data/coco_train.jsonl
@@ -52,7 +52,7 @@ python dataset_preparation.py coco_captions \
 ### Option C: Combine Multiple Datasets
 ```bash
 # Combine datasets
-python dataset_preparation.py combine \
+python dataset.py combine \
     --input_jsonl_files='["./data/conceptual_captions.jsonl", "./data/coco_train.jsonl"]' \
     --output_jsonl=./data/combined_dataset.jsonl \
     --shuffle=True
@@ -60,7 +60,7 @@ python dataset_preparation.py combine \
 
 ## Step 2: Create Train/Validation Split
 ```bash
-python dataset_preparation.py split \
+python dataset.py split \
     --input_jsonl=./data/combined_dataset.jsonl \
     --train_jsonl=./data/train.jsonl \
     --val_jsonl=./data/val.jsonl \
@@ -70,7 +70,7 @@ python dataset_preparation.py split \
 
 ## Step 3: Verify Dataset Integrity
 ```bash
-python dataset_preparation.py verify \
+python dataset.py verify \
     --jsonl_file=./data/train.jsonl \
     --check_images=True
 ```
